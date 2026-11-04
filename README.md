@@ -3,11 +3,8 @@
 <div align="left">
 
 [![License](https://img.shields.io/badge/License-MIT-1a1a2e?style=for-the-badge&logoColor=white)](LICENSE)
-[![Python](https://img.shields.io/badge/Python-%3E%3D3.11-1a1a2e?style=for-the-badge&logo=python&logoColor=white)]()
-[![FastAPI](https://img.shields.io/badge/FastAPI-1a1a2e?style=for-the-badge&logo=fastapi&logoColor=white)]()
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-1a1a2e?style=for-the-badge&logo=postgresql&logoColor=white)]()
-[![React](https://img.shields.io/badge/React-Vite-1a1a2e?style=for-the-badge&logo=react&logoColor=white)]()
 [![Status](https://img.shields.io/badge/Status-In_Development-1a1a2e?style=for-the-badge&logoColor=white)]()
+[![Version](https://img.shields.io/badge/Version-0.1.0-1a1a2e?style=for-the-badge&logoColor=white)]()
 
 </div>
 
