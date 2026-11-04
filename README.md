@@ -7,7 +7,6 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-1a1a2e?style=for-the-badge&logo=fastapi&logoColor=white)]()
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-1a1a2e?style=for-the-badge&logo=postgresql&logoColor=white)]()
 [![React](https://img.shields.io/badge/React-Vite-1a1a2e?style=for-the-badge&logo=react&logoColor=white)]()
-[![TypeScript](https://img.shields.io/badge/TypeScript-1a1a2e?style=for-the-badge&logo=typescript&logoColor=white)]()
 [![Status](https://img.shields.io/badge/Status-In_Development-1a1a2e?style=for-the-badge&logoColor=white)]()
 
 </div>
