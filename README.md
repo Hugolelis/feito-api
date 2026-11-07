@@ -18,8 +18,8 @@
 - [Tech Stack](#tech-stack)
 - [Architecture & Design Decisions](#architecture--design-decisions)
 - [Getting Started](#getting-started)
-- [License](#license)
 - [Author](#author)
+- [License](#license)
 
 </details>
 
@@ -96,12 +96,12 @@ cd Feito-product
 
 ---
 
-## License
-
-Distributed under the **MIT License**. See [LICENSE](LICENSE) for more information.
-
----
-
 ## Author
 
 [Hugolelis](https://github.com/Hugolelis)
+
+---
+
+## License
+
+Distributed under the **MIT License**. See [LICENSE](LICENSE) for more information.
