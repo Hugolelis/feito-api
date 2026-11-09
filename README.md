@@ -29,11 +29,13 @@
 
 Feito is a study project built end to end, from the database to the interface, with the goal of practicing a real-world stack: secure authentication, a typed REST API, automated tests, and a responsive React front end.
 
-> The project is under active development. This README describes the planned scope and will be filled in as each part is built.
+> The project is in its very first stage: for now the repository only holds the license and the editor settings (`.editorconfig`). The `api/` and `web/` folders do not exist yet, and everything below describes the **planned scope**. This README will be updated as each part is built.
 
 ---
 
 ## Features
+
+Planned, none of these is implemented yet.
 
 | Capability | Description |
 |---|---|
@@ -67,14 +69,16 @@ Feito is a study project built end to end, from the database to the interface, w
 ## Architecture & Design Decisions
 
 ```
-Feito-product/
-├── api/                    # FastAPI back end
-├── web/                    # React + Vite + TypeScript front end
-├── .editorconfig
+feito-product/
+├── api/                    # FastAPI back end (planned)
+├── web/                    # React + Vite + TypeScript front end (planned)
+├── .editorconfig           # Shared editor settings (4 spaces for Python, 2 for everything else)
 ├── .gitignore
 ├── LICENSE
 └── README.md
 ```
+
+The decisions below are the plan for the stack, not yet reflected in code:
 
 - **Monorepo:** `api/` and `web/` live in the same repository, so a change that touches both ships in a single commit.
 - **Sessions:** a short-lived JWT access token plus a refresh token stored in an `httpOnly` cookie, which keeps the refresh token out of reach of JavaScript.
@@ -90,8 +94,8 @@ Feito-product/
 
 ```bash
 # Clone the repository
-git clone https://github.com/Hugolelis/Feito-product.git
-cd Feito-product
+git clone https://github.com/Hugolelis/feito-product.git
+cd feito-product
 ```
 
 ---
