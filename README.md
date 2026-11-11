@@ -15,6 +15,7 @@
 
 - [About](#about)
 - [Features](#features)
+- [Usage Flow](#usage-flow)
 - [Tech Stack](#tech-stack)
 - [Architecture & Design Decisions](#architecture--design-decisions)
 - [Getting Started](#getting-started)
@@ -29,7 +30,7 @@
 
 Feito is a study project built end to end, from the database to the interface, with the goal of practicing a real-world stack: secure authentication, a typed REST API, automated tests, and a responsive React front end.
 
-> The project is in its very first stage: for now the repository only holds the license and the editor settings (`.editorconfig`). The `api/` and `web/` folders do not exist yet, and everything below describes the **planned scope**. This README will be updated as each part is built.
+> The project is in its very first stage. The `api/` folder holds only the Poetry setup (dependencies and a bare FastAPI app), and `web/` is still empty. Everything below describes the **planned scope**. This README will be updated as each part is built.
 
 ---
 
@@ -50,15 +51,31 @@ Planned, none of these is implemented yet.
 
 ---
 
+## Usage Flow
+
+From the first sign-in, with Google or email and password, to completing the day's tasks.
+
+![Usage flow of Feito](docs/FeitoUsageFlow.png)
+
+1. **Sign-in:** the user chooses Google or email and password.
+2. **Confirmation:** with email and password, the server creates a pending account and emails a confirmation link; opening it activates the account. With Google the email arrives already verified, so this step is skipped.
+3. **Session and tasks:** the server starts a session and returns an access token, the app shows the Today list and the calendar, and every change to a task is saved through the API.
+4. **Exit:** the user reviews the day and signs out, which ends the session.
+
+---
+
 ## Tech Stack
 
 | Tool | Purpose |
 |---|---|
-| [Python](https://python.org) | Back end language |
+| [Python](https://python.org) | Back end language (3.12) |
+| [Poetry](https://python-poetry.org) | Back end dependency management |
 | [FastAPI](https://fastapi.tiangolo.com) | REST API framework |
 | [PostgreSQL](https://postgresql.org) | Database |
 | [SQLAlchemy 2](https://www.sqlalchemy.org) | ORM |
 | [Alembic](https://alembic.sqlalchemy.org) | Database migrations |
+| [Authlib](https://authlib.org) | Google OAuth 2.0 |
+| [Pytest](https://pytest.org), [Ruff](https://docs.astral.sh/ruff/), [mypy](https://mypy-lang.org) | Tests, linting, and type checking |
 | [React](https://react.dev) | Front end library |
 | [Vite](https://vite.dev) | Front end build tool |
 | [TypeScript](https://www.typescriptlang.org) | Front end language |
@@ -70,9 +87,11 @@ Planned, none of these is implemented yet.
 
 ```
 feito-product/
-├── api/                    # FastAPI back end (planned)
+├── api/                    # FastAPI back end
+│   ├── app/                # Application package (main.py)
+│   └── pyproject.toml      # Poetry project and dependencies
 ├── web/                    # React + Vite + TypeScript front end (planned)
-├── .editorconfig           # Shared editor settings (4 spaces for Python, 2 for everything else)
+├── docs/                   # Diagrams (usage flow)
 ├── .gitignore
 ├── LICENSE
 └── README.md
@@ -90,13 +109,23 @@ The decisions below are the plan for the stack, not yet reflected in code:
 
 ## Getting Started
 
-> Setup instructions will be added as the API and the web app are built.
+Only the API skeleton can be run so far. The web app and the Docker Compose setup are still to come.
+
+**Requirements:** Python 3.12 and [Poetry](https://python-poetry.org).
 
 ```bash
 # Clone the repository
 git clone https://github.com/Hugolelis/feito-product.git
-cd feito-product
+cd feito-product/api
+
+# Install dependencies (creates api/.venv)
+poetry install
+
+# Run the API
+poetry run uvicorn app.main:app --reload
 ```
+
+The API runs at `http://localhost:8000`, with interactive docs at `/docs`.
 
 ---
 
