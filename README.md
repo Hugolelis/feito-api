@@ -57,7 +57,7 @@ From the first sign-in, with Google or email and password, to completing the day
 
 ![Usage flow of Feito](docs/FeitoUsageFlow.png)
 
-> The diagram shows the original full-stack plan, with a web app. Without a front end, the browser opens the API endpoints directly, and the API answers with JSON. The diagram will be redrawn for the API-only scope.
+> There is no front end: the client is a browser or the interactive docs at `/docs`, and the API answers with JSON.
 
 1. **Sign-in:** the user chooses Google or email and password.
 2. **Confirmation:** with email and password, the server creates a pending account and emails a confirmation link that points to the API; opening it activates the account. With Google the email arrives already verified, so this step is skipped.
