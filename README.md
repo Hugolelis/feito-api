@@ -1,3 +1,5 @@
+<img src="docs/FeitoLogo.png" alt="Feito API" width="260">
+
 # Feito
 
 <div align="left">
@@ -113,9 +115,9 @@ The decisions below are the plan for the stack, not yet reflected in code:
 
 ## Getting Started
 
-Only the API skeleton can be run so far. The Docker Compose setup is still to come.
+The API skeleton, the health routes, and the local environment (PostgreSQL and Mailpit) can be run so far.
 
-**Requirements:** Python 3.12 and [Poetry](https://python-poetry.org).
+**Requirements:** Python 3.12, [Poetry](https://python-poetry.org), and [Docker](https://docs.docker.com/get-docker/) with Compose.
 
 ```bash
 # Clone the repository
@@ -125,11 +127,31 @@ cd feito-product
 # Install dependencies (creates .venv)
 poetry install
 
+# Create your .env from the template
+cp .env.example .env
+
+# Generate the secrets and write them into .env (nothing is printed)
+SECRET=$(python3 -c "import secrets; print(secrets.token_hex(32))")
+PASS=$(python3 -c "import secrets; print(secrets.token_hex(24))")
+sed -i "s|^SECRET_KEY=.*|SECRET_KEY=$SECRET|" .env
+sed -i "s|^POSTGRES_PASSWORD=.*|POSTGRES_PASSWORD=$PASS|" .env
+sed -i "s|^DATABASE_URL=.*|DATABASE_URL=postgresql+psycopg://feito:$PASS@localhost:5433/feito|" .env
+
+# Start PostgreSQL and Mailpit
+docker compose --env-file .env -f docker/compose.yaml up -d
+
 # Run the API
 poetry run uvicorn app.main:app --reload
 ```
 
-The API runs at `http://localhost:8000`, with interactive docs at `/docs`.
+On macOS, use `sed -i ''` instead of `sed -i`.
+
+The API runs at `http://localhost:8000`, with interactive docs at `/docs`. The Mailpit inbox is at `http://localhost:8025`. If port 8000 is busy, add `--port 8001` to the last command.
+
+More details:
+
+- [Docker and local environment](docs/docker.md)
+- [Tests](docs/testing.md)
 
 ---
 
