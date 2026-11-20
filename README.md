@@ -90,19 +90,23 @@ From the first sign-in, with Google or email and password, to completing the day
 feito-product/
 ├── app/                    # FastAPI application
 │   ├── main.py             # Entry point
-│   ├── core/               # Config and security
+│   ├── core/               # Settings (.env) and security
 │   ├── db/                 # Engine, session, and base model
 │   ├── modules/            # One folder per feature (auth, users, lists, tasks, health)
-│   └── utils/              # Shared helpers (email, logging)
+│   └── utils/              # Shared helpers (email, helpers, log)
 ├── tests/                  # Automated tests
-├── docs/                   # Diagrams (usage flow)
-├── pyproject.toml          # Poetry project and dependencies
+├── docker/                 # Docker Compose (PostgreSQL and Mailpit)
+├── ci/                     # Pre-commit configuration
+├── docs/                   # Guides, usage flow, and logo
+├── Makefile                # Shortcuts (run, lint, test, ...)
+├── pyproject.toml          # Poetry project, dependencies, and tool settings
+├── .env.example            # Environment variables template
 ├── .gitignore
 ├── LICENSE
 └── README.md
 ```
 
-The decisions below are the plan for the stack, not yet reflected in code:
+The decisions below guide the stack. Some are already in the code, and the rest arrive as each feature is built:
 
 - **API only for now:** the code lives at the repository root, so a front end can be added later in a separate `web/` folder.
 - **Feature-based layout:** each feature owns its router, models, schemas, and service inside `app/modules/`, while shared code lives in `core/`, `db/`, and `utils/`.
@@ -115,9 +119,9 @@ The decisions below are the plan for the stack, not yet reflected in code:
 
 ## Getting Started
 
-The API skeleton, the health routes, and the local environment (PostgreSQL and Mailpit) can be run so far.
+The API skeleton, the health routes, the local environment (PostgreSQL and Mailpit), and the quality tooling (ruff, mypy, pre-commit) can be run so far.
 
-**Requirements:** Python 3.12, [Poetry](https://python-poetry.org), and [Docker](https://docs.docker.com/get-docker/) with Compose.
+**Requirements:** Python 3.12, [Poetry](https://python-poetry.org), [Docker](https://docs.docker.com/get-docker/) with Compose, and `make` (preinstalled on most Linux and macOS systems).
 
 ```bash
 # Clone the repository
@@ -137,16 +141,33 @@ sed -i "s|^SECRET_KEY=.*|SECRET_KEY=$SECRET|" .env
 sed -i "s|^POSTGRES_PASSWORD=.*|POSTGRES_PASSWORD=$PASS|" .env
 sed -i "s|^DATABASE_URL=.*|DATABASE_URL=postgresql+psycopg://feito:$PASS@localhost:5433/feito|" .env
 
+# Install the git hook (runs ruff and mypy before each commit)
+make hooks
+
 # Start PostgreSQL and Mailpit
-docker compose --env-file .env -f docker/compose.yaml up -d
+make up
 
 # Run the API
-poetry run uvicorn app.main:app --reload
+make run
 ```
 
 On macOS, use `sed -i ''` instead of `sed -i`.
 
-The API runs at `http://localhost:8000`, with interactive docs at `/docs`. The Mailpit inbox is at `http://localhost:8025`. If port 8000 is busy, add `--port 8001` to the last command.
+The API runs at `http://localhost:8001`, with interactive docs at `/docs`. The Mailpit inbox is at `http://localhost:8025`. To use another port: `make run PORT=8002`.
+
+The git hook is stored inside `.git`, so it is not part of the repository: run `make hooks` once in every clone.
+
+### Shortcuts
+
+| Command | What it does |
+|---|---|
+| `make run` | Starts the API with auto-reload (port 8001) |
+| `make lint` | Checks the code without changing it: `ruff check`, `ruff format --check`, and `mypy` |
+| `make format` | Fixes what ruff can fix and formats the code |
+| `make test` | Runs the tests |
+| `make check` | Runs `lint` and then `test` |
+| `make hooks` | Installs the pre-commit hook |
+| `make up` / `make down` | Starts / stops PostgreSQL and Mailpit |
 
 More details:
 

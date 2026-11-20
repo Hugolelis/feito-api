@@ -32,7 +32,7 @@ The user and the database name (`feito`) are created by the compose file (`POSTG
 
 ## Commands
 
-The compose file lives in `docker/`, so every command needs `--env-file .env -f docker/compose.yaml`.
+The compose file lives in `docker/`, so every command needs `--env-file .env -f docker/compose.yaml`. Two of them have shortcuts: `make up` and `make down`.
 
 | Goal | Command |
 |---|---|
@@ -74,4 +74,4 @@ PostgreSQL only reads `POSTGRES_USER`, `POSTGRES_PASSWORD` and `POSTGRES_DB` whe
 - **`db` exits right after starting.** Run `logs db`. If `POSTGRES_PASSWORD` is missing or empty in `.env`, PostgreSQL refuses to start.
 - **Port already in use.** Another PostgreSQL may already use the port. The compose file publishes `5433` instead of the default `5432` for this reason. Change the left number in `ports` and in `DATABASE_URL` if `5433` is also taken.
 - **`password authentication failed`.** The volume was created with another password. Run `down -v` and `up -d` again. This erases the data.
-- **The API port 8000 is busy.** Start it on another one: `poetry run uvicorn app.main:app --port 8001`.
+- **The API port is busy.** `make run` uses port 8001 (the default 8000 is often used by other tools). Use another one with `make run PORT=8002`.
