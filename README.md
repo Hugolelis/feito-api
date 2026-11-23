@@ -114,6 +114,7 @@ The decisions below guide the stack. Some are already in the code, and the rest 
 - **Password hashing:** Argon2.
 - **Email:** SMTP, with Mailpit as the local inbox during development.
 - **Local environment:** PostgreSQL and Mailpit run through Docker Compose.
+- **Logging:** one line per request (method, path, status, duration), never the query string; colored in the terminal, with warnings and errors also saved in `logs/feito.log`.
 
 ---
 
@@ -181,6 +182,7 @@ More details:
 
 - [Docker and local environment](docs/docker.md)
 - [Tests](docs/testing.md)
+- [Logging](docs/logging.md)
 
 ---
 
