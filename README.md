@@ -169,6 +169,14 @@ The git hook is stored inside `.git`, so it is not part of the repository: run `
 | `make hooks` | Installs the pre-commit hook |
 | `make up` / `make down` | Starts / stops PostgreSQL and Mailpit |
 
+### Tests
+
+```bash
+make test
+```
+
+The tests need neither Docker nor a `.env` file. `make check` runs the linters, the type checker, and the tests together. The pre-commit hook runs ruff and mypy on each commit, but not the tests.
+
 More details:
 
 - [Docker and local environment](docs/docker.md)

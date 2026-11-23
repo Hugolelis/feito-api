@@ -13,3 +13,6 @@ __pycache__/
 
 # Editors / OS
 .vscode/
+
+# Logs
+logs/

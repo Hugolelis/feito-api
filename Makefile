@@ -3,7 +3,7 @@
 PORT ?= 8001
 
 run:
-	poetry run uvicorn app.main:app --reload --port $(PORT)
+	poetry run uvicorn app.main:app --reload --port $(PORT) --no-access-log
 
 lint:
 	poetry run ruff check .
