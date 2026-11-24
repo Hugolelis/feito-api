@@ -73,8 +73,8 @@ logger = logging.getLogger(__name__)
 
 
 def something(email: str) -> None:
-    logger.info("user %s opened the list", email)        # terminal only
-    logger.warning("login failed for %s", email)          # terminal and file
+    logger.info("user %s opened the list", email)  # terminal only
+    logger.warning("login failed for %s", email)  # terminal and file
 ```
 
 `__name__` is the module name, such as `app.modules.auth.service`, and it appears in the line, so you can see where a message came from.
@@ -109,9 +109,12 @@ The email confirmation link looks like `/auth/confirm-email?token=...`: the toke
 
 For the same reason the API runs with `--no-access-log` (already set in `make run`). The access log that uvicorn writes by itself contains the full URL, token included, and it would duplicate the line the middleware already writes.
 
+## Unhandled errors
+
+When a route crashes with an unexpected error, the request line is not written, because the exception skips the middleware. The global error handler (`app/core/errors.py`) covers this: it logs the error at `ERROR` level, with the full stack trace and the method and path of the request, and answers the client with a generic `500` that hides the details. As an `ERROR`, it also goes to the log file.
+
 ## Limits
 
-- **Unhandled errors (500) are not logged yet.** When a route crashes, the exception skips the middleware. Logging them is the job of the "Erros padronizados e handler global" card, which will use this same logger.
 - **The file rotation is not safe with several server processes** writing at the same time. With one process, as in development, it is fine. In production with several workers, send the logs to a log service instead.
 - **Access logs are plain text.** A structured format (JSON) and a request id are left for the deploy.
 
