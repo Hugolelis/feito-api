@@ -91,14 +91,16 @@ feito-product/
 ├── app/                    # FastAPI application
 │   ├── main.py             # Entry point
 │   ├── core/               # Settings (.env) and security
-│   ├── db/                 # Engine, session, and base model
+│   ├── db/                 # Engine, per-request session (get_db), and base model
 │   ├── modules/            # One folder per feature (auth, users, lists, tasks, health)
 │   └── utils/              # Shared helpers (email, helpers, log)
+├── migrations/             # Alembic: versioned changes to the database
 ├── tests/                  # Automated tests
 ├── docker/                 # Docker Compose (PostgreSQL and Mailpit)
 ├── ci/                     # Pre-commit configuration
 ├── docs/                   # Guides, usage flow, and logo
-├── Makefile                # Shortcuts (run, lint, test, ...)
+├── alembic.ini             # Alembic configuration
+├── Makefile                # Shortcuts (run, lint, test, migrate, ...)
 ├── pyproject.toml          # Poetry project, dependencies, and tool settings
 ├── .env.example            # Environment variables template
 ├── .gitignore
@@ -114,13 +116,14 @@ The decisions below guide the stack. Some are already in the code, and the rest 
 - **Password hashing:** Argon2.
 - **Email:** SMTP, with Mailpit as the local inbox during development.
 - **Local environment:** PostgreSQL and Mailpit run through Docker Compose.
+- **Database:** SQLAlchemy 2 with one session per request; every change to the schema is an Alembic migration in `migrations/versions/`, applied with `make migrate`.
 - **Logging:** one line per request (method, path, status, duration), never the query string; colored in the terminal, with warnings and errors also saved in `logs/feito.log`.
 
 ---
 
 ## Getting Started
 
-The API skeleton, the health routes, the local environment (PostgreSQL and Mailpit), and the quality tooling (ruff, mypy, pre-commit) can be run so far.
+The API skeleton, the health routes, the local environment (PostgreSQL and Mailpit), the database migrations, and the quality tooling (ruff, mypy, pre-commit) can be run so far.
 
 **Requirements:** Python 3.12, [Poetry](https://python-poetry.org), [Docker](https://docs.docker.com/get-docker/) with Compose, and `make` (preinstalled on most Linux and macOS systems).
 
@@ -148,6 +151,9 @@ make hooks
 # Start PostgreSQL and Mailpit
 make up
 
+# Apply the database migrations
+make migrate
+
 # Run the API
 make run
 ```
@@ -169,6 +175,8 @@ The git hook is stored inside `.git`, so it is not part of the repository: run `
 | `make check` | Runs `lint` and then `test` |
 | `make hooks` | Installs the pre-commit hook |
 | `make up` / `make down` | Starts / stops PostgreSQL and Mailpit |
+| `make migrate` | Applies the database migrations (`alembic upgrade head`) |
+| `make revision m="message"` | Creates a new migration from the changes in the models |
 
 ### Tests
 

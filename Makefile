@@ -27,3 +27,9 @@ up:
 
 down:
 	docker compose --env-file .env -f docker/compose.yaml down
+
+migrate:
+	poetry run alembic upgrade head
+
+revision:
+	poetry run alembic revision --autogenerate -m "$(m)"
